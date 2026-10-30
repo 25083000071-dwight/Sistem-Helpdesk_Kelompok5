@@ -139,3 +139,37 @@ def tampilkan_semua_tiket():
             print(f"Pesan: Tiket dengan nama pelapor '{nama}' tidak ditemukan.")
     else:
         print("Error: Pilihan tidak valid.")
+
+def update_status():
+    print("\n=== F4: UPDATE STATUS TIKET ===")
+    kode = input("Masukkan Kode Tiket yang ingin di-update: ").strip().lower()
+    
+    tiket_target = None
+    for t in daftar_tiket:
+        if t['kode_tiket'].lower() == kode:
+            tiket_target = t
+            break
+
+    if not tiket_target:
+        print(f"Pesan: Tiket dengan kode '{kode}' tidak ditemukan.")
+        return
+
+    status_saat_ini = tiket_target['status']
+    if status_saat_ini == "Selesai":
+        print(f"Pesan: Tiket [{tiket_target['kode_tiket']}] sudah berstatus Selesai dan tidak dapat diperbarui lagi.")
+        return
+
+    status_berikutnya = "Diproses" if status_saat_ini == "Menunggu" else "Selesai"
+    
+    print("\nKonfirmasi Perubahan Status:")
+    print(f"Kode Tiket       : {tiket_target['kode_tiket']}")
+    print(f"Nama Pelapor     : {tiket_target['nama_pelapor']}")
+    print(f"Status Saat Ini  : {status_saat_ini}")
+    print(f"Status Berikutnya: {status_berikutnya}")
+
+    konfirmasi = input("Apakah Anda yakin ingin memperbarui status? (y/n): ").strip().lower()
+    if konfirmasi == 'y':
+        tiket_target['status'] = status_berikutnya
+        print(f"Sukses: Status tiket [{tiket_target['kode_tiket']}] berhasil diperbarui dari {status_saat_ini} menjadi {status_berikutnya}.")
+    else:
+        print("Update status dibatalkan.")

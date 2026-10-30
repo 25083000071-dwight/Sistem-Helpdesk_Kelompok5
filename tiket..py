@@ -173,3 +173,26 @@ def update_status():
         print(f"Sukses: Status tiket [{tiket_target['kode_tiket']}] berhasil diperbarui dari {status_saat_ini} menjadi {status_berikutnya}.")
     else:
         print("Update status dibatalkan.")
+
+def filter_jenis_masalah():
+    print("\n=== F5: FILTER TIKET BERDASARKAN JENIS MASALAH ===")
+    print(f"Pilihan Kategori: {', '.join(JENIS_MASALAH_VALID)}")
+    jenis = input("Masukkan Jenis Masalah: ").strip().capitalize()
+
+    if jenis not in JENIS_MASALAH_VALID:
+        print("Error: Pilihan jenis masalah tidak valid.")
+        return
+
+    hasil = [t for t in daftar_tiket if t['jenis_masalah'] == jenis]
+    if hasil:
+        print(f"\nMenampilkan tiket jenis masalah '{jenis}' ({len(hasil)} tiket ditemukan):")
+        print("-" * 75)
+        print(f"{'No':<4} | {'Kode':<8} | {'Nama Pelapor':<18} | {'Jenis':<10} | {'Prioritas':<10} | {'Status':<10}")
+        print("-" * 75)
+        for idx, t in enumerate(hasil, 1):
+            prio_str = f"[{t['prioritas']}]"
+            stat_str = f"[{t['status']}]"
+            print(f"{idx:<4} | {t['kode_tiket']:<8} | {t['nama_pelapor']:<18} | {t['jenis_masalah']:<10} | {prio_str:<10} | {stat_str:<10}")
+        print("-" * 75)
+    else:
+        print(f"Pesan: Tidak ada tiket dengan jenis masalah '{jenis}' dalam sistem.")

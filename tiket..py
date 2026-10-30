@@ -196,3 +196,32 @@ def filter_jenis_masalah():
         print("-" * 75)
     else:
         print(f"Pesan: Tidak ada tiket dengan jenis masalah '{jenis}' dalam sistem.")
+
+def hapus_tiket():
+    print("\n=== F6: HAPUS TIKET ===")
+    kode = input("Masukkan Kode Tiket yang akan dihapus: ").strip().lower()
+
+    tiket_target = None
+    for t in daftar_tiket:
+        if t['kode_tiket'].lower() == kode:
+            tiket_target = t
+            break
+
+    if not tiket_target:
+        print(f"Pesan: Tiket dengan kode '{kode}' tidak ditemukan.")
+        return
+
+    if tiket_target['status'] != "Selesai":
+        print(f"Pesan: Tiket [{tiket_target['kode_tiket']}] tidak dapat dihapus karena masih berstatus '{tiket_target['status']}'. Selesaikan penanganan tiket terlebih dahulu.")
+        return
+
+    print("\nDetail Tiket Akan Dihapus:")
+    print(f"Kode / Pelapor : {tiket_target['kode_tiket']} / {tiket_target['nama_pelapor']}")
+    print(f"Jenis / Status : {tiket_target['jenis_masalah']} / {tiket_target['status']}")
+
+    konfirmasi = input("Apakah Anda yakin ingin menghapus tiket ini? (y/n): ").strip().lower()
+    if konfirmasi == 'y':
+        daftar_tiket.remove(tiket_target)
+        print(f"Sukses: Tiket [{tiket_target['kode_tiket']}] dari [{tiket_target['nama_pelapor']}] berhasil dihapus dari sistem.")
+    else:
+        print("Pesan: Penghapusan dibatalkan.")

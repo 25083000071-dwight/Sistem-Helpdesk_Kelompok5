@@ -93,4 +93,49 @@ def tampilkan_semua_tiket():
     print("-" * 75)
     print(f"Ringkasan: Total: {len(daftar_tiket)} | Menunggu: {menunggu} | Diproses: {diproses} | Selesai: {selesai}")
 
-    
+    def cari_tiket():
+    print("\n=== F3: CARI TIKET ===")
+    print("1. Cari berdasarkan Kode Tiket (Exact Match)")
+    print("2. Cari berdasarkan Nama Pelapor (Partial Match)")
+    pilihan = input("Pilih mode pencarian (1/2): ").strip()
+
+    if pilihan == "1":
+        kode = input("Masukkan Kode Tiket: ").strip().lower()
+        if not kode:
+            print("Error: Kata kunci tidak boleh kosong!")
+            return
+        
+        hasil = [t for t in daftar_tiket if t['kode_tiket'].lower() == kode]
+        if hasil:
+            t = hasil[0]
+            print("\n--- Detail Tiket Ditemukan ---")
+            print(f"Kode Tiket    : {t['kode_tiket']}")
+            print(f"Nama Pelapor  : {t['nama_pelapor']}")
+            print(f"Jenis Masalah : {t['jenis_masalah']}")
+            print(f"Deskripsi     : {t['deskripsi']}")
+            print(f"Prioritas     : {t['prioritas']}")
+            print(f"Status        : {t['status']}")
+        else:
+            print(f"Pesan: Tiket dengan kode '{kode}' tidak ditemukan.")
+
+    elif pilihan == "2":
+        nama = input("Masukkan Kata Kunci Nama Pelapor: ").strip().lower()
+        if not nama:
+            print("Error: Kata kunci tidak boleh kosong!")
+            return
+        
+        hasil = [t for t in daftar_tiket if nama in t['nama_pelapor'].lower()]
+        if hasil:
+            print(f"\nMenampilkan {len(hasil)} tiket ditemukan:")
+            print("-" * 75)
+            print(f"{'No':<4} | {'Kode':<8} | {'Nama Pelapor':<18} | {'Jenis':<10} | {'Prioritas':<10} | {'Status':<10}")
+            print("-" * 75)
+            for idx, t in enumerate(hasil, 1):
+                prio_str = f"[{t['prioritas']}]"
+                stat_str = f"[{t['status']}]"
+                print(f"{idx:<4} | {t['kode_tiket']:<8} | {t['nama_pelapor']:<18} | {t['jenis_masalah']:<10} | {prio_str:<10} | {stat_str:<10}")
+            print("-" * 75)
+        else:
+            print(f"Pesan: Tiket dengan nama pelapor '{nama}' tidak ditemukan.")
+    else:
+        print("Error: Pilihan tidak valid.")

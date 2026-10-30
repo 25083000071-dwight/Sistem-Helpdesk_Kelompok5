@@ -66,4 +66,31 @@ def tambah_tiket():
     
     daftar_tiket.append(tiket_baru)
     print(f"\nSukses: Tiket [{kode}] dari [{nama}] berhasil dicatat.")
+
+def tampilkan_semua_tiket():
+    print("\n=== F2: DAFTAR TIKET LAYANAN ===")
+    if not daftar_tiket:
+        print("Pesan: Belum ada tiket dalam sistem.")
+        return
+
+    print("-" * 75)
+    print(f"{'No':<4} | {'Kode':<8} | {'Nama Pelapor':<18} | {'Jenis':<10} | {'Prioritas':<10} | {'Status':<10}")
+    print("-" * 75)
+    
+    menunggu = diproses = selesai = 0
+    for idx, t in enumerate(daftar_tiket, 1):
+        prio_str = f"[{t['prioritas']}]"
+        stat_str = f"[{t['status']}]"
+        print(f"{idx:<4} | {t['kode_tiket']:<8} | {t['nama_pelapor']:<18} | {t['jenis_masalah']:<10} | {prio_str:<10} | {stat_str:<10}")
+        
+        if t['status'] == "Menunggu":
+            menunggu += 1
+        elif t['status'] == "Diproses":
+            diproses += 1
+        elif t['status'] == "Selesai":
+            selesai += 1
+        
+    print("-" * 75)
+    print(f"Ringkasan: Total: {len(daftar_tiket)} | Menunggu: {menunggu} | Diproses: {diproses} | Selesai: {selesai}")
+
     
